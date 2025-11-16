@@ -1,77 +1,71 @@
-// === Modal behavior ===
-document.addEventListener('DOMContentLoaded', ()=> {
+// Поведение модального окна
+document.addEventListener('DOMContentLoaded', () => {
 
   const openBtn = document.getElementById('openCalc');
   const modal = document.getElementById('modalCalc');
   const closeBtns = document.querySelectorAll('[data-close-modal]');
 
-  if(openBtn) {
-    openBtn.addEventListener('click', ()=> { 
-      modal.classList.add('open'); 
-      document.body.style.overflow='hidden'; 
+  // Открытие модального окна
+  if (openBtn) {
+    openBtn.addEventListener('click', () => {
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
     });
   }
 
-  closeBtns.forEach(btn => 
-    btn.addEventListener('click', ()=> { 
-      modal.classList.remove('open'); 
-      document.body.style.overflow=''; 
-    })
-  );
+  // Закрытие модалки по кнопкам
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
 
-  if(modal) {
-    modal.addEventListener('click', (e)=> { 
-      if(e.target === modal){
-        modal.classList.remove('open'); 
-        document.body.style.overflow=''; 
+  // Закрытие при клике по фону
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
       }
     });
   }
 
-
-  // === Telegram form submit ===
+  // Отправка формы
   const form = document.getElementById('calcForm');
-  if(!form) return;
+  if (!form) return;
 
-  // ⬇⬇⬇ ВСТАВЛЯЕШЬ СВОИ ДАННЫЕ ТУТ
-  const BOT_TOKEN = "8536272545:AAEYGZGwaZ3Huv3I76kq2F2_i7_qgGv-HrE"; 
-  const CHAT_ID = "5631390959";        
-  const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-
-  form.addEventListener('submit', async (e)=>{
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(form);
-    let message = "<b>Новая заявка с сайта</b>\n\n";
+    const data = Object.fromEntries(new FormData(form).entries());
 
-    formData.forEach((value, key) => {
-      message += `<b>${key}:</b> ${value}\n`;
-    });
+    // Замените SERVER_URL на URL вашего сервера
+    const SERVER_URL = 'https://your-server.example.com/send-telegram';
 
     try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: message,
-          parse_mode: "HTML"
-        })
+      const res = await fetch(SERVER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
       });
 
-      if (response.ok) {
-        alert("Спасибо! Ваша заявка отправлена.");
+      const json = await res.json();
+
+      if (json.ok) {
+        alert('Спасибо! Ваша заявка отправлена.');
         form.reset();
         modal.classList.remove('open');
-        document.body.style.overflow='';
+        document.body.style.overflow = '';
       } else {
-        console.error(await response.text());
-        alert("Ошибка отправки. Подробности в консоли.");
+        console.error(json);
+        alert('Ошибка отправки. Смотрите консоль.');
       }
 
     } catch (err) {
       console.error(err);
-      alert("Ошибка соединения. Проверь консоль.");
+      alert('Ошибка отправки. Смотрите консоль.');
     }
   });
+
 });
