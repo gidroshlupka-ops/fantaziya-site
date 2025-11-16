@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = Object.fromEntries(new FormData(form).entries());
 
     // Замените SERVER_URL на URL вашего сервера
-    const SERVER_URL = 'https://your-server.example.com/send-telegram';
+    const SERVER_URL = 'https://hidden-sea-4724.babakapa065.workers.dev/';
 
     try {
       const res = await fetch(SERVER_URL, {
@@ -69,3 +69,4 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
+
