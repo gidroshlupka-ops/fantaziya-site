@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ателье «Фантазия» — Главная</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container header-row">
+      <div class="brand">
+        <a href="index.html"><img src="photos/logo.png" alt="Фантазия" class="logo"></a>
+      </div>
+
+      <nav class="main-nav">
+        <ul>
+          <li class="nav-item">
+            <a href="catalog/index.html">Каталог ▾</a>
+            <div class="dropdown-menu">
+              <a href="catalog/tshirts.html">Пошив футболок</a>
+              <a href="catalog/polo.html">Пошив поло</a>
+              <a href="catalog/hoodies.html">Пошив худи</a>
+              <a href="catalog/sweatshirts.html">Пошив свитшотов</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a href="services/index.html">Услуги ▾</a>
+            <div class="dropdown-menu">
+              <a href="services/embroidery.html">Вышивка</a>
+              <a href="services/print.html">Печать</a>
+              <a href="services/tailoring.html">Индивидуальный пошив</a>
+            </div>
+          </li>
+          <li><a href="about.html">О нас</a></li>
+          <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <div class="contacts">
+        <div>+7 (977) 082-30-40</div>
+        <div class="email">fantazia.atelie@gmail.com</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" aria-label="Главный баннер">
+      <div class="hero-left">
+        <div class="hero-small">АТЕЛЬЕ</div>
+        <h1 class="hero-title">ФАНТАЗИЯ</h1>
+        <p class="hero-desc">Пошив корпоративной и промо одежды. Вышивка, нанесение логотипов по всей России. Индивидуальный подход и контроль качества на каждом этапе.</p>
+        <div class="hero-cta">
+          <button class="btn" id="openCalc">Рассчитать стоимость</button>
+          <a class="btn outline" href="catalog/index.html">Перейти в каталог</a>
+        </div>
+      </div>
+      <div class="hero-right"><img src="photos/hero.jpg" alt="Команда"></div>
+    </section>
+
+    <section class="features">
+      <div class="feature"><img src="photos/icon1.svg" alt=""><p>10 000 изделий в месяц</p></div>
+      <div class="feature"><img src="photos/icon2.svg" alt=""><p>Пошив от 30 шт</p></div>
+      <div class="feature"><img src="photos/icon3.svg" alt=""><p>8 лет на рынке</p></div>
+      <div class="feature"><img src="photos/icon4.svg" alt=""><p>Разрабатываем дизайн</p></div>
+    </section>
+
+    <section id="catalog">
+      <h2>Каталог</h2>
+      <div class="catalog-grid">
+        <article class="card"><img src="photos/tshirts.png" alt=""><h4>Футболки</h4><p class="small-muted">Пошив футболок разных плотностей и размеров. Вышивка и печать.</p><p><a class="btn" href="catalog/tshirts.html">Подробнее</a></p></article>
+        <article class="card"><img src="photos/hoodie.png" alt=""><h4>Худи</h4><p class="small-muted">Удобные худи с логотипом — от прототипа до тиража.</p><p><a class="btn" href="catalog/hoodies.html">Подробнее</a></p></article>
+        <article class="card"><img src="photos/polo.png" alt=""><h4>Поло</h4><p class="small-muted">Поло с брендингом для сотрудников и мероприятий.</p><p><a class="btn" href="catalog/polo.html">Подробнее</a></p></article>
+      </div>
+    </section>
+
+    <section id="services">
+      <h2>Услуги</h2>
+      <div class="services-row">
+        <div class="card" style="flex:1"><h4>Вышивка</h4><p class="small-muted">Качественная машинная вышивка любых логотипов.</p></div>
+        <div class="card" style="flex:1"><h4>Печать</h4><p class="small-muted">Шелкография, термоперенос, сублимация.</p></div>
+        <div class="card" style="flex:1"><h4>Индивидуальный пошив</h4><p class="small-muted">Конструкторская поддержка и примерки.</p></div>
+      </div>
+    </section>
+
+    <section id="app">
+      <h2>Мобильное приложение</h2>
+      <div class="app-row">
+        <div><h3>Приложение «Фантазия»</h3><p class="small-muted">Следите за заказом, записывайтесь на примерки и получайте уведомления.</p><p style="margin-top:12px"><a class="btn" href="mobile-app.html">Подробнее</a></p></div>
+        <img src="photos/app-preview.png" alt="Приложение">
+      </div>
+    </section>
+
+    <section id="faq" class="faq">
+      <h2>Часто задаваемые вопросы</h2>
+      <details><summary>Сколько занимает пошив?</summary><p>Срок пошива зависит от сложности — от 2 до 14 дней.</p></details>
+      <details><summary>Делаете ли вы индивидуальные заказы?</summary><p>Да, выполняем индивидуальные заказы любой сложности.</p></details>
+      <details><summary>Можно ли привезти свою ткань?</summary><p>Да, можно привезти материал, предварительно согласовав его с менеджером.</p></details>
+    </section>
+
+    <section id="map" style="margin-top:24px">
+      <h2>Как нас найти</h2>
+      <iframe loading="lazy" src="https://www.google.com/maps?q=Улица+Лебедева,+1Б+Большой+Камень,+Приморский+край,+692801&output=embed" style="width:100%;height:380px;border:0;border-radius:10px;margin-top:12px"></iframe>
+      <p style="margin-top:12px"><strong>Адрес:</strong> Улица Лебедева, 1Б, 2 этаж, Большой Камень, Приморский край, 692801<br>Пн–Пт: 09:00–18:00 (перерыв 13:00–14:00)<br>Сб–Вс: выходной</p>
+    </section>
+  </main>
+
+  <footer>© 2025 Ателье «Фантазия»</footer>
+
+  <!-- Modal (form) -->
+  <div class="modal" id="modalCalc" aria-hidden="true">
+    <div class="modal-box" role="dialog" aria-modal="true">
+      <button data-close-modal style="float:right;background:transparent;border:0;font-size:20px;cursor:pointer">✕</button>
+      <h3>Получите расчет стоимости и пробный образец с вашим логотипом</h3>
+      <div class="modal-grid" style="margin-top:12px">
+        <form id="calcForm" style="padding-right:6px">
+          <label>Имя<input type="text" name="name" required></label>
+          <label>Телефон<input type="text" name="phone" placeholder="+7 (___) ___-__-__" required></label>
+          <label>Email<input type="email" name="email" placeholder="mail@example.com"></label>
+          <label>Какие изделия вас интересуют<input type="text" name="items" required></label>
+          <label>Удобный способ связи<select name="contact_method"><option>Телефон</option><option>Telegram</option><option>WhatsApp</option><option>Email</option></select></label>
+          <label class="consent"><input type="checkbox" name="consent" required> Нажимая на кнопку, вы даёте согласие на обработку персональных данных и соглашаетесь c политикой конфиденциальности</label>
+          <div style="margin-top:8px"><button class="btn" type="submit">Отправить</button></div>
+        </form>
+
+        <div>
+          <h4 style="margin-top:0">Контактная информация</h4>
+          <p class="small-muted">Мы перезвоним в рабочее время и пришлем смету. Примерный срок пробного образца — 3–7 рабочих дней.</p>
+          <p style="margin-top:12px"><strong>Адрес:</strong><br>Улица Лебедева, 1Б — 2 этаж, Большой Камень</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
