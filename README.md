@@ -1,0 +1,2 @@
+# fantaziya-site
+Слава лох
