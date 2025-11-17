@@ -230,3 +230,68 @@ footer{margin-top:40px;padding:28px 0;color:var(--muted);text-align:center}
   }
 }
 
+/* ====== Отзывы ====== */
+.reviews-list {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.review-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  padding: 16px 20px;
+  transition: transform 0.2s;
+}
+
+.review-card:hover {
+  transform: translateY(-3px);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-name {
+  font-weight: 700;
+  font-size: 16px;
+  color: #3b3b3b;
+}
+
+.review-stars {
+  font-size: 14px;
+  color: #f5b50a;
+}
+
+.review-text {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.review-date {
+  font-size: 13px;
+  color: #999;
+  text-align: right;
+}
+
+/* Адаптация под мобильные */
+@media(max-width:720px) {
+  .review-card {
+    padding: 14px 16px;
+  }
+
+  .review-name {
+    font-size: 15px;
+  }
+
+  .review-text {
+    font-size: 14px;
+  }
+}
+
