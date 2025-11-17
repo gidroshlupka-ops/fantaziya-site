@@ -66,25 +66,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ============================
-      МОБИЛЬНОЕ МЕНЮ
-  ============================ */
-  const openMenu = document.getElementById('openMenu');
-  const closeMenu = document.getElementById('closeMenu');
-  const mobileMenu = document.getElementById('mobileMenu');
+    МОБИЛЬНОЕ МЕНЮ (исправлено)
+============================ */
+const openMenu = document.getElementById('openMenu');
+const closeMenu = document.getElementById('closeMenu');
+const mobileMenu = document.getElementById('mobileMenu');
 
-  if (openMenu && mobileMenu){
-    openMenu.addEventListener('click', () => {
-      mobileMenu.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    });
-  }
+if (openMenu){
+  openMenu.addEventListener('click', () => {
+    mobileMenu.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+}
 
-  if (closeMenu){
-    closeMenu.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      document.body.style.overflow = '';
-    });
+if (closeMenu){
+  closeMenu.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+}
+
+/* закрытие свайпом по фону */
+document.addEventListener('click', e => {
+  if (e.target === mobileMenu){
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
   }
+});
 
 
   /* ============================
@@ -136,3 +144,4 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
