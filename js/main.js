@@ -142,7 +142,7 @@ document.addEventListener('click', e => {
       alert("Спасибо за ваш отзыв!");
     });
   }
-const API_URL = "https://<твой-worker>.workers.dev";
+const API_URL = "https://hidden-sea-4724.babakapa065.workers.dev/";
 
 
 // --- Отправка отзыва ---
@@ -199,5 +199,6 @@ async function loadReviews() {
 loadReviews();
 
 });
+
 
 
