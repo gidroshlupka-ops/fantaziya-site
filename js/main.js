@@ -142,6 +142,62 @@ document.addEventListener('click', e => {
       alert("Спасибо за ваш отзыв!");
     });
   }
+const API_URL = "https://<твой-worker>.workers.dev";
+
+
+// --- Отправка отзыва ---
+document.getElementById("reviewForm")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+
+  const data = {
+    name: form.name.value.trim(),
+    text: form.text.value.trim(),
+    stars: form.stars.value
+  };
+
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const json = await res.json();
+
+  if (json.ok) {
+    alert("Спасибо за отзыв!");
+    form.reset();
+    loadReviews();
+  }
+});
+
+
+// --- Загрузка отзывов ---
+async function loadReviews() {
+  const container = document.getElementById("reviewsContainer");
+  if (!container) return;
+
+  const res = await fetch(API_URL);
+  const list = await res.json();
+
+  container.innerHTML = "";
+
+  list.reverse().forEach(r => {
+    const div = document.createElement("div");
+    div.className = "review-card";
+    div.innerHTML = `
+      <div class="stars">${"⭐".repeat(r.stars)}</div>
+      <div class="name"><b>${r.name}</b></div>
+      <div class="text">${r.text}</div>
+      <div class="date">${new Date(r.date).toLocaleDateString()}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+loadReviews();
 
 });
+
 
