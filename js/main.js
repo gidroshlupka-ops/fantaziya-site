@@ -95,24 +95,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ============================
      ОТЗЫВЫ
-  ============================ */
-  const reviewForm = document.getElementById('reviewForm');
-  const reviewsContainer = document.getElementById('reviewsContainer');
-  const REVIEWS_API_URL = "https://reviewsdb.babakapa065.workers.dev/"; // воркер отзывов
+============================ */
+const reviewForm = document.getElementById('reviewForm');
+const reviewsContainer = document.getElementById('reviewsContainer');
+const REVIEWS_API_URL = "https://reviewsdb.babakapa065.workers.dev/";
 
-  // --- Загрузка отзывов ---
-  async function loadReviews() {
+// --- Загрузка отзывов ---
+async function loadReviews() {
   if (!reviewsContainer) return;
   try {
     const res = await fetch(REVIEWS_API_URL);
-    let list = await res.json();
+    const text = await res.text();
 
-    // Если list — строка (не разобранный JSON), парсим её
-    if (typeof list === "string") {
-      list = JSON.parse(list || "[]");
+    let list;
+    try {
+      list = JSON.parse(text || "[]");
+    } catch {
+      list = [];
     }
 
-    // убедимся, что это массив
     if (!Array.isArray(list)) list = [];
 
     reviewsContainer.innerHTML = "";
@@ -139,42 +140,50 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 }
 
-  // --- Отправка нового отзыва ---
-  reviewForm?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const form = e.target;
+// --- Отправка нового отзыва ---
+reviewForm?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const form = e.target;
 
-    const data = {
-      name: form.name.value.trim(),
-      text: form.text.value.trim(),
-      stars: Number(form.stars.value),
-      date: new Date().toISOString()
-    };
+  const data = {
+    name: form.name.value.trim(),
+    text: form.text.value.trim(),
+    stars: Number(form.stars.value),
+    date: new Date().toISOString()
+  };
 
+  try {
+    const res = await fetch(REVIEWS_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const text = await res.text();
+    let json;
     try {
-      const res = await fetch(REVIEWS_API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
+      json = JSON.parse(text);
+    } catch {
+      json = {};
+    }
 
-      const json = await res.json();
-
-      if (json.ok) {
-        alert("Спасибо за отзыв!");
-        form.reset();
-        loadReviews(); // обновляем список отзывов
-      } else {
-        alert("Ошибка отправки отзыва");
-      }
-    } catch (err) {
-      console.error(err);
+    if (json.ok) {
+      alert("Спасибо за отзыв!");
+      form.reset();
+      loadReviews(); // обновляем список отзывов
+    } else {
       alert("Ошибка отправки отзыва");
     }
-  });
+  } catch (err) {
+    console.error(err);
+    alert("Ошибка отправки отзыва");
+  }
+});
 
-  // --- Начальная загрузка ---
-  loadReviews();
+// --- Начальная загрузка ---
+loadReviews();
+
 
 });
+
 
