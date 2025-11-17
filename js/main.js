@@ -102,34 +102,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Загрузка отзывов ---
   async function loadReviews() {
-    if (!reviewsContainer) return;
-    try {
-      const res = await fetch(REVIEWS_API_URL);
-      const list = await res.json();
+  if (!reviewsContainer) return;
+  try {
+    const res = await fetch(REVIEWS_API_URL);
+    let list = await res.json();
 
-      reviewsContainer.innerHTML = "";
-
-      // сортируем по дате (последние сверху)
-      list.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-      list.forEach(r => {
-        const div = document.createElement("div");
-        div.className = "review-card";
-        div.innerHTML = `
-          <div class="review-header">
-            <div class="review-name">${r.name}</div>
-            <div class="review-stars">${"⭐".repeat(r.stars)}</div>
-          </div>
-          <div class="review-text">${r.text}</div>
-          <div class="review-date">${new Date(r.date).toLocaleDateString()}</div>
-        `;
-        reviewsContainer.appendChild(div);
-      });
-    } catch (err) {
-      console.error("Ошибка загрузки отзывов:", err);
-      reviewsContainer.innerHTML = "<p>Не удалось загрузить отзывы.</p>";
+    // Если list — строка (не разобранный JSON), парсим её
+    if (typeof list === "string") {
+      list = JSON.parse(list || "[]");
     }
+
+    // убедимся, что это массив
+    if (!Array.isArray(list)) list = [];
+
+    reviewsContainer.innerHTML = "";
+
+    // сортируем по дате (последние сверху)
+    list.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    list.forEach(r => {
+      const div = document.createElement("div");
+      div.className = "review-card";
+      div.innerHTML = `
+        <div class="review-header">
+          <div class="review-name">${r.name}</div>
+          <div class="review-stars">${"⭐".repeat(r.stars)}</div>
+        </div>
+        <div class="review-text">${r.text}</div>
+        <div class="review-date">${new Date(r.date).toLocaleDateString()}</div>
+      `;
+      reviewsContainer.appendChild(div);
+    });
+  } catch (err) {
+    console.error("Ошибка загрузки отзывов:", err);
+    reviewsContainer.innerHTML = "<p>Не удалось загрузить отзывы.</p>";
   }
+}
 
   // --- Отправка нового отзыва ---
   reviewForm?.addEventListener("submit", async (e) => {
@@ -169,3 +177,4 @@ document.addEventListener('DOMContentLoaded', () => {
   loadReviews();
 
 });
+
