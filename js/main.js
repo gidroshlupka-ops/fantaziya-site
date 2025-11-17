@@ -99,7 +99,50 @@ document.addEventListener('click', e => {
       ОТЗЫВЫ
   ============================ */
 
-const API_URL = "https://reviewsdb.babakapa065.workers.dev/";
+  const reviewForm = document.getElementById('reviewForm');
+  const reviewsContainer = document.getElementById('reviewsContainer');
+
+  // вывод отдаём в отдельную функцию
+  function renderReviews(){
+    if (!reviewsContainer) return;
+
+    const reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+
+    reviewsContainer.innerHTML = reviews.map(r => `
+      <div class="review-card">
+        <div class="review-name">${r.name}</div>
+        <div class="review-stars">${'⭐'.repeat(r.stars)}</div>
+        <div class="review-text">${r.text}</div>
+      </div>
+    `).join('');
+  }
+
+  // при загрузке страницы отзывов — показать отзывы
+  renderReviews();
+
+  // отправка формы
+  if (reviewForm){
+    reviewForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const data = Object.fromEntries(new FormData(reviewForm).entries());
+
+      const reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+      reviews.push({
+        name: data.name,
+        text: data.text,
+        stars: Number(data.stars)
+      });
+
+      localStorage.setItem('reviews', JSON.stringify(reviews));
+
+      reviewForm.reset();
+      renderReviews();
+
+      alert("Спасибо за ваш отзыв!");
+    });
+  }
+const API_URL = "https://hidden-sea-4724.babakapa065.workers.dev/";
 
 
 // --- Отправка отзыва ---
@@ -155,7 +198,6 @@ async function loadReviews() {
 
 loadReviews();
 
-
-
+});
 
 
