@@ -99,77 +99,62 @@ document.addEventListener('click', e => {
       ОТЗЫВЫ
   ============================ */
 
-document.addEventListener('DOMContentLoaded', () => {
+const API_URL = "https://reviewsdb.babakapa065.workers.dev/";
 
-  const reviewForm = document.getElementById('reviewForm');
-  const reviewsContainer = document.getElementById('reviewsContainer');
-  const API_URL = "https://reviewsdb.babakapa065.workers.dev/";
 
-  // --- Загрузка отзывов ---
-  async function loadReviews() {
-    if (!reviewsContainer) return;
-    try {
-      const res = await fetch(API_URL);
-      const list = await res.json();
+// --- Отправка отзыва ---
+document.getElementById("reviewForm")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-      reviewsContainer.innerHTML = "";
+  const form = e.target;
 
-      // отображаем последние отзывы первыми
-      list.reverse().forEach(r => {
-        const div = document.createElement("div");
-        div.className = "review-card";
-        div.innerHTML = `
-          <div class="review-stars">${"⭐".repeat(r.stars)}</div>
-          <div class="review-name">${r.name}</div>
-          <div class="review-text">${r.text}</div>
-          <div class="review-date">${new Date(r.date).toLocaleDateString()}</div>
-        `;
-        reviewsContainer.appendChild(div);
-      });
-    } catch (err) {
-      console.error("Ошибка загрузки отзывов:", err);
-    }
-  }
+  const data = {
+    name: form.name.value.trim(),
+    text: form.text.value.trim(),
+    stars: form.stars.value
+  };
 
-  // --- Отправка отзыва ---
-  reviewForm?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const form = e.target;
-
-    const data = {
-      name: form.name.value.trim(),
-      text: form.text.value.trim(),
-      stars: Number(form.stars.value),
-      date: new Date().toISOString()
-    };
-
-    try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-
-      const json = await res.json();
-
-      if (json.ok) {
-        alert("Спасибо за отзыв!");
-        form.reset();
-        loadReviews(); // обновляем список отзывов после отправки
-      } else {
-        alert("Ошибка отправки отзыва.");
-        console.error(json);
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Ошибка отправки отзыва.");
-    }
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
   });
 
-  // загрузка отзывов при старте
-  loadReviews();
+  const json = await res.json();
 
+  if (json.ok) {
+    alert("Спасибо за отзыв!");
+    form.reset();
+    loadReviews();
+  }
 });
+
+
+// --- Загрузка отзывов ---
+async function loadReviews() {
+  const container = document.getElementById("reviewsContainer");
+  if (!container) return;
+
+  const res = await fetch(API_URL);
+  const list = await res.json();
+
+  container.innerHTML = "";
+
+  list.reverse().forEach(r => {
+    const div = document.createElement("div");
+    div.className = "review-card";
+    div.innerHTML = `
+      <div class="stars">${"⭐".repeat(r.stars)}</div>
+      <div class="name"><b>${r.name}</b></div>
+      <div class="text">${r.text}</div>
+      <div class="date">${new Date(r.date).toLocaleDateString()}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+loadReviews();
+
 
 
 
