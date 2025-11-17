@@ -295,3 +295,15 @@ footer{margin-top:40px;padding:28px 0;color:var(--muted);text-align:center}
   }
 }
 
+/* Отступы между отзывами */
+#reviewsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 26px; /* расстояние между отзывами */
+  margin-top: 20px;
+}
+
+.review-card {
+  margin-bottom: 12px; /* дополнительный запас */
+}
+
