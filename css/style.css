@@ -215,3 +215,18 @@ footer{margin-top:40px;padding:28px 0;color:var(--muted);text-align:center}
   }
 }
 
+/* ПК — скрываем бургер, крестик, мобильную почту, само меню */
+@media (min-width: 981px) {
+  .mobile-menu-btn,
+  .close-menu,
+  .mobile-menu {
+    display: none !important;
+  }
+}
+
+@media (min-width: 981px) {
+  .mobile-contacts {
+    display: none !important;
+  }
+}
+
