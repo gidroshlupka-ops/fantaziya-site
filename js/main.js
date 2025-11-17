@@ -99,105 +99,74 @@ document.addEventListener('click', e => {
       ОТЗЫВЫ
   ============================ */
 
+  document.addEventListener('DOMContentLoaded', () => {
   const reviewForm = document.getElementById('reviewForm');
   const reviewsContainer = document.getElementById('reviewsContainer');
+  const API_URL = "https://reviewsdb.babakapa065.workers.dev/";
 
-  // вывод отдаём в отдельную функцию
-  function renderReviews(){
+  // --- Загрузка отзывов ---
+  async function loadReviews() {
     if (!reviewsContainer) return;
+    try {
+      const res = await fetch(API_URL);
+      const list = await res.json();
 
-    const reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+      reviewsContainer.innerHTML = "";
 
-    reviewsContainer.innerHTML = reviews.map(r => `
-      <div class="review-card">
-        <div class="review-name">${r.name}</div>
-        <div class="review-stars">${'⭐'.repeat(r.stars)}</div>
-        <div class="review-text">${r.text}</div>
-      </div>
-    `).join('');
+      list.reverse().forEach(r => {
+        const div = document.createElement("div");
+        div.className = "review-card";
+        div.innerHTML = `
+          <div class="review-header">
+            <div class="review-name">${r.name}</div>
+            <div class="review-stars">${"⭐".repeat(r.stars)}</div>
+          </div>
+          <div class="review-text">${r.text}</div>
+          <div class="review-date">${new Date(r.date).toLocaleDateString()}</div>
+        `;
+        reviewsContainer.appendChild(div);
+      });
+    } catch (err) {
+      console.error("Ошибка загрузки отзывов:", err);
+    }
   }
 
-  // при загрузке страницы отзывов — показать отзывы
-  renderReviews();
+  // --- Отправка отзыва ---
+  reviewForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = e.target;
 
-  // отправка формы
-  if (reviewForm){
-    reviewForm.addEventListener('submit', e => {
-      e.preventDefault();
+    const data = {
+      name: form.name.value.trim(),
+      text: form.text.value.trim(),
+      stars: Number(form.stars.value),
+      date: new Date().toISOString()
+    };
 
-      const data = Object.fromEntries(new FormData(reviewForm).entries());
-
-      const reviews = JSON.parse(localStorage.getItem('reviews') || '[]');
-      reviews.push({
-        name: data.name,
-        text: data.text,
-        stars: Number(data.stars)
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
       });
 
-      localStorage.setItem('reviews', JSON.stringify(reviews));
+      const json = await res.json();
 
-      reviewForm.reset();
-      renderReviews();
-
-      alert("Спасибо за ваш отзыв!");
-    });
-  }
-const API_URL = "https://hidden-sea-4724.babakapa065.workers.dev/";
-
-
-// --- Отправка отзыва ---
-document.getElementById("reviewForm")?.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const form = e.target;
-
-  const data = {
-    name: form.name.value.trim(),
-    text: form.text.value.trim(),
-    stars: form.stars.value
-  };
-
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
+      if (json.ok) {
+        alert("Спасибо за отзыв!");
+        form.reset();
+        loadReviews(); // обновляем список отзывов
+      } else {
+        alert("Ошибка отправки отзыва");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Ошибка отправки отзыва");
+    }
   });
 
-  const json = await res.json();
-
-  if (json.ok) {
-    alert("Спасибо за отзыв!");
-    form.reset();
-    loadReviews();
-  }
+  loadReviews();
 });
 
-
-// --- Загрузка отзывов ---
-async function loadReviews() {
-  const container = document.getElementById("reviewsContainer");
-  if (!container) return;
-
-  const res = await fetch(API_URL);
-  const list = await res.json();
-
-  container.innerHTML = "";
-
-  list.reverse().forEach(r => {
-    const div = document.createElement("div");
-    div.className = "review-card";
-    div.innerHTML = `
-      <div class="stars">${"⭐".repeat(r.stars)}</div>
-      <div class="name"><b>${r.name}</b></div>
-      <div class="text">${r.text}</div>
-      <div class="date">${new Date(r.date).toLocaleDateString()}</div>
-    `;
-    container.appendChild(div);
-  });
-}
-
-loadReviews();
-
-});
 
 
