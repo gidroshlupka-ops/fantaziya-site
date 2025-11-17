@@ -131,8 +131,13 @@ footer{margin-top:40px;padding:28px 0;color:var(--muted);text-align:center}
 /* =========================
    MOBILE MENU (720px)
 ========================= */
+.mobile-menu-btn{
+  display:none;
+}
+
 @media(max-width:720px){
 
+  /* Показываем бургер только на мобилке */
   .mobile-menu-btn{
     position:fixed;
     top:18px;
@@ -147,11 +152,17 @@ footer{margin-top:40px;padding:28px 0;color:var(--muted);text-align:center}
     display:block;
   }
 
-  /* скрываем меню ПК */
-  .main-nav ul{
+  /* Скрываем ПК-меню */
+  .main-nav{
     display:none !important;
   }
 
+  /* Контакты остаются */
+  .contacts{
+    display:block;
+  }
+
+  /* Само мобильное меню */
   .mobile-menu{
     position:fixed;
     top:0;
@@ -169,14 +180,17 @@ footer{margin-top:40px;padding:28px 0;color:var(--muted);text-align:center}
     right:0;
   }
 
+  /* Кнопка закрыть */
   .close-menu{
     background:none;
     border:0;
-    font-size:26px;
-    float:right;
+    font-size:28px;
     cursor:pointer;
+    display:block;
+    margin-left:auto;
   }
 
+  /* Навигация */
   .mobile-nav{
     margin-top:40px;
     display:flex;
@@ -186,10 +200,11 @@ footer{margin-top:40px;padding:28px 0;color:var(--muted);text-align:center}
 
   .mobile-nav a{
     font-size:18px;
-    padding:6px 0;
+    padding:8px 0;
     border-bottom:1px solid #eee;
   }
 
+  /* Контакты в моб-меню */
   .mobile-contacts{
     margin-top:28px;
     font-weight:600;
@@ -199,3 +214,4 @@ footer{margin-top:40px;padding:28px 0;color:var(--muted);text-align:center}
     margin-bottom:6px;
   }
 }
+
