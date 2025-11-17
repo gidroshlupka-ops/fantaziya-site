@@ -1,8 +1,8 @@
-// Поведение модального окна
+// main.js
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ============================
-     МОДАЛЬНОЕ ОКНО (как было)
+     МОДАЛЬНОЕ ОКНО
   ============================ */
   const openBtn = document.getElementById('openCalc');
   const modal = document.getElementById('modalCalc');
@@ -31,16 +31,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const form = document.getElementById('calcForm');
-  if (form) {
-    form.addEventListener('submit', async (e) => {
+  const calcForm = document.getElementById('calcForm');
+  const CALC_API_URL = 'https://hidden-sea-4724.babakapa065.workers.dev/'; // воркер для заявок
+
+  if (calcForm) {
+    calcForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const data = Object.fromEntries(new FormData(form).entries());
-      const SERVER_URL = 'https://hidden-sea-4724.babakapa065.workers.dev/';
+      const data = Object.fromEntries(new FormData(calcForm).entries());
 
       try {
-        const res = await fetch(SERVER_URL, {
+        const res = await fetch(CALC_API_URL, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(data)
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (json.ok) {
           alert('Спасибо! Ваша заявка отправлена.');
-          form.reset();
+          calcForm.reset();
           modal.classList.remove('open');
           document.body.style.overflow = '';
         } else {
@@ -64,56 +65,54 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-
   /* ============================
-    МОБИЛЬНОЕ МЕНЮ (исправлено)
-============================ */
-const openMenu = document.getElementById('openMenu');
-const closeMenu = document.getElementById('closeMenu');
-const mobileMenu = document.getElementById('mobileMenu');
-
-if (openMenu){
-  openMenu.addEventListener('click', () => {
-    mobileMenu.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  });
-}
-
-if (closeMenu){
-  closeMenu.addEventListener('click', () => {
-    mobileMenu.classList.remove('open');
-    document.body.style.overflow = '';
-  });
-}
-
-/* закрытие свайпом по фону */
-document.addEventListener('click', e => {
-  if (e.target === mobileMenu){
-    mobileMenu.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-});
-
-
-  /* ============================
-      ОТЗЫВЫ
+     МОБИЛЬНОЕ МЕНЮ
   ============================ */
+  const openMenu = document.getElementById('openMenu');
+  const closeMenu = document.getElementById('closeMenu');
+  const mobileMenu = document.getElementById('mobileMenu');
 
-  document.addEventListener('DOMContentLoaded', () => {
+  if (openMenu){
+    openMenu.addEventListener('click', () => {
+      mobileMenu.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
+  if (closeMenu){
+    closeMenu.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+
+  document.addEventListener('click', e => {
+    if (e.target === mobileMenu){
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
+
+  /* ============================
+     ОТЗЫВЫ
+  ============================ */
   const reviewForm = document.getElementById('reviewForm');
   const reviewsContainer = document.getElementById('reviewsContainer');
-  const API_URL = "https://reviewsdb.babakapa065.workers.dev/";
+  const REVIEWS_API_URL = "https://reviewsdb.babakapa065.workers.dev/"; // воркер отзывов
 
   // --- Загрузка отзывов ---
   async function loadReviews() {
     if (!reviewsContainer) return;
     try {
-      const res = await fetch(API_URL);
+      const res = await fetch(REVIEWS_API_URL);
       const list = await res.json();
 
       reviewsContainer.innerHTML = "";
 
-      list.reverse().forEach(r => {
+      // сортируем по дате (последние сверху)
+      list.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      list.forEach(r => {
         const div = document.createElement("div");
         div.className = "review-card";
         div.innerHTML = `
@@ -128,10 +127,11 @@ document.addEventListener('click', e => {
       });
     } catch (err) {
       console.error("Ошибка загрузки отзывов:", err);
+      reviewsContainer.innerHTML = "<p>Не удалось загрузить отзывы.</p>";
     }
   }
 
-  // --- Отправка отзыва ---
+  // --- Отправка нового отзыва ---
   reviewForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -144,7 +144,7 @@ document.addEventListener('click', e => {
     };
 
     try {
-      const res = await fetch(API_URL, {
+      const res = await fetch(REVIEWS_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
@@ -165,8 +165,7 @@ document.addEventListener('click', e => {
     }
   });
 
+  // --- Начальная загрузка ---
   loadReviews();
+
 });
-
-
-
