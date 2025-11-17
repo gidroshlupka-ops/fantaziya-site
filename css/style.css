@@ -127,3 +127,75 @@ footer{margin-top:40px;padding:28px 0;color:var(--muted);text-align:center}
   .modal-box{padding:16px}
   .modal-grid{gap:12px}
 }
+
+/* =========================
+   MOBILE MENU (720px)
+========================= */
+@media(max-width:720px){
+
+  .mobile-menu-btn{
+    position:fixed;
+    top:18px;
+    right:18px;
+    background:var(--olive);
+    color:#fff;
+    border:0;
+    font-size:28px;
+    padding:6px 14px;
+    border-radius:10px;
+    z-index:200;
+    display:block;
+  }
+
+  /* скрываем меню ПК */
+  .main-nav ul{
+    display:none !important;
+  }
+
+  .mobile-menu{
+    position:fixed;
+    top:0;
+    right:-260px;
+    width:260px;
+    height:100%;
+    background:#fff;
+    box-shadow:-4px 0 22px rgba(0,0,0,0.15);
+    padding:20px;
+    transition:0.35s;
+    z-index:300;
+  }
+
+  .mobile-menu.open{
+    right:0;
+  }
+
+  .close-menu{
+    background:none;
+    border:0;
+    font-size:26px;
+    float:right;
+    cursor:pointer;
+  }
+
+  .mobile-nav{
+    margin-top:40px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .mobile-nav a{
+    font-size:18px;
+    padding:6px 0;
+    border-bottom:1px solid #eee;
+  }
+
+  .mobile-contacts{
+    margin-top:28px;
+    font-weight:600;
+  }
+
+  .mobile-contacts div{
+    margin-bottom:6px;
+  }
+}
